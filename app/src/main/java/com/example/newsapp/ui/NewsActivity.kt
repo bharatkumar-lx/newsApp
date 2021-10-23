@@ -27,7 +27,7 @@ class NewsActivity : AppCompatActivity() {
         val newsRepository = NewsRepository(ArticleDatabase(this))
         val newsViewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
         viewModel = ViewModelProvider(this,newsViewModelProviderFactory).get(NewsViewModel::class.java)
-
+//        supportActionBar?.title = "News App"
 
 
 
