@@ -19,8 +19,10 @@ abstract class ArticleDatabase : RoomDatabase() {
     abstract fun getArticles() : ArticleDao
 
     companion object{
+        //Volatile will let know other threads that it being use
         @Volatile
         private var instance :ArticleDatabase? = null
+        //to lock thread (coroutine)
         private var Lock = Any()
 
         operator fun invoke(context : Context) = instance ?: synchronized(Lock){

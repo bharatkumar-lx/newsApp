@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitInstance {
     companion object{
         private val retrofit by lazy {
+            //HttpLoggingInterceptor help to log the errors and inspect the response
             val logger = HttpLoggingInterceptor()
             logger.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder().

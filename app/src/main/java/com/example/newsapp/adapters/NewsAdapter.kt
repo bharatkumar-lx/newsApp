@@ -13,7 +13,8 @@ import com.example.newsapp.model.Article
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
     inner class ArticleViewHolder(val binding: ItemArticlePreviewBinding): RecyclerView.ViewHolder(binding.root)
 
-
+//    DiffUtil only update the changed  list
+//    it compare 2 lists and only update the changed one
     private val differCallBack = object :DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == oldItem.url
@@ -25,7 +26,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
     }
 
 
-    val differ = AsyncListDiffer(this,differCallBack)
+    private val differ = AsyncListDiffer(this,differCallBack)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
@@ -40,10 +41,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
         val binding = holder.binding
-        holder.itemView.apply {
-            Glide.with(this).load(article.urlToImage).into(binding.previewImageView)
+        holder.binding.apply {
+            Glide.with(binding.previewImageView).load(article.urlToImage).into(binding.previewImageView)
             binding.previewTitle.text = article.title
             binding.previewDescription.text = article.description
+
 //            setOnClickListener{
 //                onItemClickListener?.let {
 //                    it(article)
@@ -56,7 +58,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
         return differ.currentList.size
     }
 
-//
+
 //    private var onItemClickListener :((Article) -> Unit)? = null
 //
 //    private fun setOnItemClickListener(listener:(Article) -> Unit){

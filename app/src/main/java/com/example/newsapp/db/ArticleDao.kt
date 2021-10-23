@@ -5,6 +5,7 @@ import androidx.room.*
 import com.example.newsapp.model.Article
 
 
+// It's Data accessing interface it's similar retrofit interface
 @Dao
 interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
