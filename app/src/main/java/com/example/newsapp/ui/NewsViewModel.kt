@@ -10,21 +10,38 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class NewsViewModel(
-    private val newRepository : NewsRepository
+    private val newsRepository : NewsRepository
 ) : ViewModel() {
     init {
         getBreakingNews("in")
     }
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val breakingNewsPage = 1
+    private val breakingNewsPage = 1
+    val searchNews : MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    private var searchNewsPage = 1
 
     fun getBreakingNews(countryCode: String)  = viewModelScope.launch {
-//        breakingNews.postValue(Resource.Loading())
-        val response = newRepository.getBreakingNews(countryCode,breakingNewsPage)
+        val response = newsRepository.getBreakingNews(countryCode,breakingNewsPage)
         breakingNews.postValue(handleBreakingNewsResponse(response))
     }
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
+        if(response.isSuccessful){
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    fun getSearchNews(searchQuery: String) = viewModelScope.launch {
+        val response = newsRepository.searchNews(searchQuery,searchNewsPage)
+        searchNews.postValue(handleSearchNewsResponse(response))
+    }
+
+
+
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
         if(response.isSuccessful){
             response.body()?.let {
                 return Resource.Success(it)

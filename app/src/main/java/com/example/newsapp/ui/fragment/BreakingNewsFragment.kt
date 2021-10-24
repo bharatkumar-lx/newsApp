@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.newsapp.ui.NewsActivity
@@ -34,22 +34,42 @@ class BreakingNewsFragment : Fragment() {
         viewModel = (activity as NewsActivity).viewModel
         (activity as NewsActivity).supportActionBar?.title = "Breaking News"
         setupRecyclerView()
-        viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response->
+
+        newsAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("article",it)
+            }
+            findNavController().navigate(
+                R.id.action_breakingNewsFragment_to_articleFragment,
+                bundle
+            )
+        }
+
+        viewModel.breakingNews.observe(viewLifecycleOwner, { response->
             when(response){
                 is Resource.Success -> {
+                    hideProgressBar()
                     response.data?.let {newsResponse ->
                     newsAdapter.differ.submitList(newsResponse.articles)
                     }
                 }
                 is Resource.Error -> {
+                    hideProgressBar()
                     response.message?.let {
                         Log.d(TAG,it)
                     }
-
+                }
+                is Resource.Loading ->{
+                    showProgressBar()
                 }
             }
 
         })
+//        viewModel.loadingState.observe(viewLifecycleOwner,{
+//            if(it) {
+//                showProgressBar()
+//            }
+//        })
     }
 
     private fun setupRecyclerView(){
@@ -58,6 +78,14 @@ class BreakingNewsFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    private fun showProgressBar(){
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
 }

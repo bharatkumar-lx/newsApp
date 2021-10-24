@@ -45,13 +45,13 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
             Glide.with(binding.previewImageView).load(article.urlToImage).into(binding.previewImageView)
             binding.previewTitle.text = article.title
             binding.previewDescription.text = article.description
-
-//            setOnClickListener{
-//                onItemClickListener?.let {
-//                    it(article)
-//                }
-//            }
+            binding.root.setOnClickListener {
+                onItemClickListener?.let {
+                    it(article)
+                }
+            }
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -59,11 +59,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
     }
 
 
-//    private var onItemClickListener :((Article) -> Unit)? = null
-//
-//    private fun setOnItemClickListener(listener:(Article) -> Unit){
-//         onItemClickListener = listener
-//
-//    }
+    private var onItemClickListener :((Article) -> Unit)? = null
+
+    fun setOnItemClickListener(listener:(Article) -> Unit){
+         onItemClickListener = listener
+
+    }
 
 }
