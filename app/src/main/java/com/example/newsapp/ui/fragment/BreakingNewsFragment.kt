@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,8 +54,8 @@ class BreakingNewsFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.articles.toList())
-                        val totalPage = newsResponse.totalResults/ QUERY_PAGE_SIZE +2
+                        newsAdapter.differ.submitList(newsResponse.articles?.toList())
+                        val totalPage = newsResponse.totalResults!! / QUERY_PAGE_SIZE +2
                         isAtLastPage = viewModel.breakingNewsPage == totalPage
                         if(isAtLastPage){
                             binding.breakingNewsRecyclerView.setPadding(0,0,0,0)
@@ -66,9 +67,10 @@ class BreakingNewsFragment : Fragment() {
                     hideProgressBar()
                     response.message?.let {
                         Log.d(TAG,it)
+                        Toast.makeText(activity,"An Error occured: $it", Toast.LENGTH_LONG).show()
                     }
                 }
-                is Resource.Loading ->{
+                is Resource.Loading -> {
                     showProgressBar()
                 }
             }
