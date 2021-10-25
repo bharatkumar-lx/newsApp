@@ -23,7 +23,7 @@ class NewsActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupBottomNavigationBar()
         val newsRepository = NewsRepository(ArticleDatabase(this))
-        val newsViewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        val newsViewModelProviderFactory = NewsViewModelProviderFactory(application,newsRepository)
         viewModel = ViewModelProvider(this,newsViewModelProviderFactory).get(NewsViewModel::class.java)
 
 //        supportActionBar?.title = "News App"

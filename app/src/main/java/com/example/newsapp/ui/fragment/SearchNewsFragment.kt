@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,7 +58,7 @@ class SearchNewsFragment : Fragment() {
         binding.searchBar.addTextChangedListener{ editable ->
             job?.cancel()
             job = MainScope().launch {
-                delay(500L)
+                delay(1000L)
                 editable?.let {
                     if(editable.toString().isNotEmpty()){
                         viewModel.getSearchNews(editable.toString())
@@ -70,9 +71,9 @@ class SearchNewsFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.articles.toList())
-                        val totalPage = newsResponse.totalResults/ Constants.QUERY_PAGE_SIZE +2
-                        isAtLastPage = viewModel.breakingNewsPage == totalPage
+                        newsAdapter.differ.submitList(newsResponse.articles?.toList())
+                        val totalPage = newsResponse.totalResults!! / Constants.QUERY_PAGE_SIZE +2
+                        isAtLastPage = viewModel.searchNewsPage == totalPage
                         if(isAtLastPage){
                             binding.searchRecyclerView.setPadding(0,0,0,0)
                         }
@@ -81,7 +82,7 @@ class SearchNewsFragment : Fragment() {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let {
-                        Log.d(TAG,it)
+                        Toast.makeText(activity,"An Error occured: $it",Toast.LENGTH_LONG).show()
                     }
                 }
                 is Resource.Loading ->{
