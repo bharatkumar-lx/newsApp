@@ -16,7 +16,7 @@ import com.example.newsapp.model.Article
     Converters::class
 )
 abstract class ArticleDatabase : RoomDatabase() {
-    abstract fun getArticles() : ArticleDao
+    abstract fun getArticlesDao() : ArticleDao
 
     companion object{
         //Volatile will let know other threads that it being use

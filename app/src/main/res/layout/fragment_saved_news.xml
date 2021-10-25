@@ -15,15 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
-        android:layout_marginBottom="89dp"
-        android:id="@+id/progressBar"
-        app:layout_constraintBottom_toBottomOf="@+id/breakingNewsRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/breakingNewsRecyclerView"
-        app:layout_constraintTop_toTopOf="@+id/breakingNewsRecyclerView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
