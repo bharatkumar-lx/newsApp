@@ -3,7 +3,7 @@ This is news app Which consist with 3 different fragment Breaking news,Search Ne
 it allow users to save their favorite news into local database. 
 
 # Note 
-To run this app need api key from  https://newsapi.org/  which is define in util packed inside Constaints.kt file
+To run this app need api key from  https://newsapi.org/  which is define in util package inside Constaints.kt file
 
 # Specification
 Clicking Card on Detail screen
