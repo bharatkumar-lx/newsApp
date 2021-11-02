@@ -13,7 +13,7 @@ User able to search news <br />
 
 # Used Technologies
 MVVM Architecture for keeping views and model seprate <br />
-Coroutines for async data transfer <br />
+Coroutines to perfom for async task <br />
 LiveData list to oberve change in data <br />
 Retrofit to handle apis <br />
 Room for local database storage <br />
